@@ -26,8 +26,6 @@ export function AutoComplete() {
   const [results, setResults] = useState([]);
   const [pending, startTransition] = useTransition();
 
-  const deferredValue = useDeferredValue(query);
-
   function search(query: string) {
     controller && controller.abort();
 
@@ -44,8 +42,8 @@ export function AutoComplete() {
   }
 
   useEffect(() => {
-    search(deferredValue);
-  }, [deferredValue]);
+    search(query);
+  }, [query]);
 
   return (
     <>
