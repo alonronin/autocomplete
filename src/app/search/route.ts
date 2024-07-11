@@ -14,6 +14,8 @@ export async function GET(request: Request) {
   const result = await data;
 
   return NextResponse.json(
-    result.filter((post: { title: string }) => post.title.includes(query)),
+    result.filter((post: { title: string }) =>
+      post.title.includes(query.toLowerCase()),
+    ),
   );
 }
