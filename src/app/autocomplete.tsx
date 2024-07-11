@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useDeferredValue, useEffect, useState, useTransition } from "react";
 
 let controller: AbortController | null = null;
 
@@ -26,6 +26,8 @@ export function AutoComplete() {
   const [results, setResults] = useState([]);
   const [pending, startTransition] = useTransition();
 
+  const deferredValue = useDeferredValue(query);
+
   function search(query: string) {
     controller && controller.abort();
 
@@ -42,12 +44,12 @@ export function AutoComplete() {
   }
 
   useEffect(() => {
-    search(query);
-  }, [query]);
+    search(deferredValue);
+  }, [deferredValue]);
 
   return (
-    <div className="p-4 flex flex-col gap-4">
-      <div className="flex items-center relative">
+    <>
+      <div className="flex items-center sticky top-0 p-4 bg-black shadow-2xl">
         <input
           autoComplete="off"
           value={query}
@@ -59,12 +61,13 @@ export function AutoComplete() {
           <Loading className="absolute right-4 animate-spin h-5 w-5 text-white" />
         )}
       </div>
-
-      <ul>
-        {results.map((result: { id: string; title: string }) => (
-          <li key={result.id}>{result.title}</li>
-        ))}
-      </ul>
-    </div>
+      <div className="px-4 flex flex-col gap-4">
+        <ul>
+          {results.map((result: { id: string; title: string }) => (
+            <li key={result.id}>{result.title}</li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }
