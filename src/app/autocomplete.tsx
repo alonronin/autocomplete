@@ -58,7 +58,7 @@ export function AutoComplete() {
           onChange={(e) => setQuery(e.target.value)}
         />
         {pending && (
-          <Loading className="absolute right-4 animate-spin h-5 w-5 text-white" />
+          <Loading className="absolute right-6 animate-spin h-5 w-5 text-white" />
         )}
       </div>
       <div className="px-4 flex flex-col gap-4">
